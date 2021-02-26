@@ -20,10 +20,17 @@ build:
 build/ROT13.o: lib/ROT13.c lib/ROT13.h | build
 	gcc -Wall -Werror -pedantic --debug -c lib/ROT13.c -I ./lib -o build/ROT13.o
 
-# ... ?
+build/Cesar.o : lib/Cesar.c lib/Cesar.h | build
+	gcc -Wall -Werror -pedantic --debug -c lib/Cesar.c -I ./lib -o build/Cesar.o
 
-build/libchiffrage.a: lib/chiffrage.h build/ROT13.o | build
-	ar crs build/libchiffrage.a build/ROT13.o
+#build/chiffrage.o : lib/chiffrage.c lib/chiffrage.h | build
+	#gcc -Wall -Werror -pedantic --debug -c lib/chiffrage.c -I ./lib -o build/chiffrage.o
+
+build/Vigenere.o : lib/Vigenere.c lib/Vigenere.h | build
+	gcc -Wall -Werror -pedantic --debug -c lib/Vigenere.c -I ./lib -o build/Vigenere.o
+
+build/libchiffrage.a: lib/chiffrage.h build/ROT13.o build/Cesar.o build/Vigenere.o | build
+	ar crs build/libchiffrage.a build/ROT13.o build/Cesar.o build/Vigenere.o
 
 
 # Programme de test. Trois cibles : une pour compiler le code de test en fichier 
@@ -33,7 +40,9 @@ build/libchiffrage.a: lib/chiffrage.h build/ROT13.o | build
 build/test.o: test/main.c | build
 	gcc -Wall -Werror -pedantic --debug -c test/main.c -I ./lib -o build/test.o
 
-build/test: build/test.o build/libchiffrage.a | build
+
+
+build/test: build/test.o build/libchiffrage.a build/Vigenere.o build/Cesar.o | build
 	gcc build/test.o -L build -l chiffrage -o build/test
 
 check: build/test
