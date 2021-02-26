@@ -20,13 +20,13 @@ build:
 build/ROT13.o: lib/ROT13.c lib/ROT13.h | build
 	gcc -Wall -Werror -pedantic --debug -c lib/ROT13.c -I ./lib -o build/ROT13.o
 
-build/Cesar.o : lib/Cesar.c lib/Cesar.h | build
+build/Cesar.o: lib/Cesar.c lib/Cesar.h | build
 	gcc -Wall -Werror -pedantic --debug -c lib/Cesar.c -I ./lib -o build/Cesar.o
 
 #build/chiffrage.o : lib/chiffrage.c lib/chiffrage.h | build
 	#gcc -Wall -Werror -pedantic --debug -c lib/chiffrage.c -I ./lib -o build/chiffrage.o
 
-build/Vigenere.o : lib/Vigenere.c lib/Vigenere.h | build
+build/Vigenere.o: lib/Vigenere.c lib/Vigenere.h | build
 	gcc -Wall -Werror -pedantic --debug -c lib/Vigenere.c -I ./lib -o build/Vigenere.o
 
 build/libchiffrage.a: lib/chiffrage.h build/ROT13.o build/Cesar.o build/Vigenere.o | build
