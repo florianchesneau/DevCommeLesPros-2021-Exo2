@@ -96,8 +96,5 @@ char* dechiffre_ROT13(
     }
 
     return chiffre;
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> eddefebaa7b85aaa0a2985968104d72cfae82ae8
+
