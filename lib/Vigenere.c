@@ -129,57 +129,7 @@ void chiffre_Vigenere_flux_texte(
     clair=fopen("test/clair.txt", "r");
     chiffre=fopen("build/resultat.txt", "w");
     int i=0;
-    int j=0;
-    int depassement=0;
-    int cle2;
-    if(clair==NULL)
-        return NULL;
-    else
-    {
-        while(clair[i]!='\0')
-        {   
-            
-            if(cle[j]=='\0')
-            {
-                j=0;
-            }
-            cle2=cle[j];
-            cle2=cle2-97;
-            if(clair[i]>=65 && clair[i]<=90)
-            {
-                if(clair[i]+cle2>90)
-                {
-                    depassement=(clair[i]+cle2-1)-90;
-                    chiffre[i]=65+depassement;
-                    j=j+1;
-                }    
-                else
-                {
-                    chiffre[i]=clair[i]+cle2;
-                    j=j+1;
-                }
-            }
-            else if(clair[i]>=97 && clair[i]<=122)
-            {
-                if(clair[i]+cle2>122)
-                {
-                    depassement=(clair[i]+cle2-1)-122;
-                    chiffre[i]=97+depassement;
-                    j=j+1;
-                }    
-                else
-                {
-                    chiffre[i]=clair[i]+cle2;
-                    j=j+1;  
-                }
-            }
-            else if(clair[i]==124||clair[i]==44||clair[i]==46)
-            {
-                chiffre[i]=clair[i];
-            }        
-            i=i+1;
-        }
-    }
+    
     return void;
 }
 
