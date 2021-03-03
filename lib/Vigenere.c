@@ -55,7 +55,7 @@ char* chiffre_Vigenere(
             else if(clair[i]==124||clair[i]==44||clair[i]==46)
             {
                 clair[i]=clair[i];
-            }        
+            }     
             i=i+1;
         }
     }
@@ -111,9 +111,9 @@ char* dechiffre_Vigenere(
                 }
             }
             else if(chiffre[i]==124||chiffre[i]==44||chiffre[i]==46)
-                {
-                    chiffre[i]=chiffre[i];
-                }
+            {
+                chiffre[i]=chiffre[i];
+            }
             i=i+1;
             
         }
@@ -126,17 +126,53 @@ void chiffre_Vigenere_flux_texte(
     FILE* clair,        // Flux d'entrée.
     char const* cle)
 {
-    clair=fopen("test/clair.txt", "r");
-    chiffre=fopen("build/resultat.txt", "w");
     int i=0;
+    char chaine[118];
+    char chaine2[118];
+    char caractere;
+
+    while (caractere!=EOF)
+    {  
+        caractere=fgetc(clair);
+        chaine[i]=caractere;
+        //printf("%c",chaine[i]);
+        i=i+1; 
+    }
+    for(i=0;i<=118;i++)
+    {
+        chaine2[i]=chaine[i];
+    }
+    //printf("%s",chiffre_Vigenere(chaine2,cle));
+    fputs(chiffre_Vigenere(chaine2,cle),chiffre);
     
-    return void;
+    return;    
 }
+
+
 
 void dechiffre_Vigenere_flux_texte(
     FILE* clair,        // Flux de sortie.
     FILE* chiffre,      // Flux d'entrée.
     char const* cle)
 {
-    return;
+    int i=0;
+    char chaine[118];
+    char chaine2[118];
+    char caractere;
+
+    while (caractere!=EOF)
+    {  
+        caractere=fgetc(chiffre);
+        chaine[i]=caractere;
+        //printf("%c",chaine[i]);
+        i=i+1; 
+    }
+    for(i=0;i<=118;i++)
+    {
+        chaine2[i]=chaine[i];
+    }
+    //printf("%s",chiffre_Vigenere(chaine2,cle));
+    fputs(dechiffre_Vigenere(chaine2,cle),clair);
+    
+    return;  
 }
