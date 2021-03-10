@@ -9,7 +9,7 @@ char* chiffre_Vigenere(
 {
     int i=0;
     int j=0;
-    int depassement=0;
+    int depassement=0;//On créé une variable qui contiendra de combien depasse les ajouts de clé aux caracteres
     int cle2;
     if(clair==NULL)
         return NULL;
@@ -24,9 +24,9 @@ char* chiffre_Vigenere(
             }
             cle2=cle[j];
             cle2=cle2-97;
-            if(clair[i]>=65 && clair[i]<=90)
+            if(clair[i]>=65 && clair[i]<=90) //On regarde si le caractere est parmi les majuscules
             {
-                if(clair[i]+cle2>90)
+                if(clair[i]+cle2>90)//on verifie si l'addition ne depasse pas des majuscules
                 {
                     depassement=(clair[i]+cle2-1)-90;
                     clair[i]=65+depassement;
@@ -38,9 +38,9 @@ char* chiffre_Vigenere(
                     j=j+1;
                 }
             }
-            else if(clair[i]>=97 && clair[i]<=122)
+            else if(clair[i]>=97 && clair[i]<=122)//On regarde si le caractère est une minuscule
             {
-                if(clair[i]+cle2>122)
+                if(clair[i]+cle2>122)//on verifie si l'addition ne depasse pas des minuscules
                 {
                     depassement=(clair[i]+cle2-1)-122;
                     clair[i]=97+depassement;
@@ -52,7 +52,7 @@ char* chiffre_Vigenere(
                     j=j+1;  
                 }
             }
-            else /*if(clair[i]==124||clair[i]==44||clair[i]==46)*/
+            else
             {
                 clair[i]=clair[i];
             }     
@@ -66,7 +66,7 @@ char* dechiffre_Vigenere(
     char* chiffre,      // Texte chiffré qui sera modifié.
     char const* cle)
 {   
-    int t=sizeof(cle);
+    int t=sizeof(cle); //On reccupere la taille de la cle
     int i=0;
     char cle2[t];
     while(cle[i]!='\0')
@@ -85,7 +85,7 @@ void chiffre_Vigenere_flux_texte(
 {
     int i=0;
     int n;
-    fseek(clair, 0, SEEK_END);
+    fseek(clair, 0, SEEK_END);//On reccupere la taille max du fichier 
     n = ftell(clair);
     fseek(clair, 0, SEEK_SET);
 
@@ -93,7 +93,7 @@ void chiffre_Vigenere_flux_texte(
     char chaine2[n-1];
     char caractere;
 
-    while (caractere!=EOF)
+    while (caractere!=EOF)//On reccupere le caractere tant qu'on a pas atteint la fin du fichier
     {  
         caractere=fgetc(clair);
         chaine[i]=caractere;
@@ -104,7 +104,7 @@ void chiffre_Vigenere_flux_texte(
     {
         chaine2[i]=chaine[i];
     }
-    fputs(chiffre_Vigenere(chaine2,cle),chiffre);
+    fputs(chiffre_Vigenere(chaine2,cle),chiffre);//On ecrit dans chiffre les caracteres chiffrés avec vigenere
     
     return;    
 }
@@ -117,15 +117,15 @@ void dechiffre_Vigenere_flux_texte(
     char const* cle)
 {
     int i=0;
-    int t=sizeof(cle);
+    int t=sizeof(cle);//On reccupere la taille de la  clé
     char cle2[t];
     while (cle[i]!='\0')
     {  
-        cle2[i]=97+(26-(cle[i]-97));
+        cle2[i]=97+(26-(cle[i]-97)); 
         i=i+1; 
     }
     cle2[i]='\0';
-    chiffre_Vigenere_flux_texte(clair,chiffre, cle2);
+    chiffre_Vigenere_flux_texte(clair,chiffre, cle2);//On dechiffre le fichier avec vigenere
     
     return;  
 }
