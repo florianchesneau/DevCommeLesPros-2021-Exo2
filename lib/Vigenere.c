@@ -52,7 +52,7 @@ char* chiffre_Vigenere(
                     j=j+1;  
                 }
             }
-            else if(clair[i]==124||clair[i]==44||clair[i]==46)
+            else /*if(clair[i]==124||clair[i]==44||clair[i]==46)*/
             {
                 clair[i]=clair[i];
             }     
@@ -65,59 +65,16 @@ char* chiffre_Vigenere(
 char* dechiffre_Vigenere(
     char* chiffre,      // Texte chiffré qui sera modifié.
     char const* cle)
-{    
+{   
+    int t=sizeof(cle);
     int i=0;
-    int j=0;
-    int depassement=0;
-    int cle2;
-    if(chiffre==NULL)
-        return NULL;
-    else
+    char cle2[t];
+    while(cle[i]!='\0')
     {
-        while(chiffre[i]!='\0')
-        {
-            if(cle[j]=='\0')
-            {
-                j=0;
-            }
-            cle2=cle[j];
-            cle2=cle2-97;
-            if(chiffre[i]>=65 && chiffre[i]<=90)
-            {
-                if(chiffre[i]-cle2<65)
-                {
-                    depassement=(chiffre[i]-(cle2-1))-65;
-                    chiffre[i]=90+depassement;
-                    j=j+1;
-                }    
-                else
-                {
-                    chiffre[i]=chiffre[i]-cle2;
-                    j=j+1;
-                }
-            }
-            else if(chiffre[i]>=97 && chiffre[i]<=122)
-            {
-                if(chiffre[i]-cle2<97)
-                {
-                    depassement=(chiffre[i]-(cle2-1))-97;
-                    chiffre[i]=122+depassement;
-                    j=j+1;
-                }    
-                else
-                {
-                    chiffre[i]=chiffre[i]-cle2;
-                    j=j+1;
-                }
-            }
-            else if(chiffre[i]==124||chiffre[i]==44||chiffre[i]==46)
-            {
-                chiffre[i]=chiffre[i];
-            }
-            i=i+1;
-            
-        }
-    }
+        cle2[i]=97+(26-(cle[i]-97));
+        i=i+1;
+    } 
+    chiffre=chiffre_Vigenere(chiffre, cle2);
     return chiffre;
 }
 
@@ -127,22 +84,26 @@ void chiffre_Vigenere_flux_texte(
     char const* cle)
 {
     int i=0;
-    char chaine[118];
-    char chaine2[118];
+    int n;
+    fseek(clair, 0, SEEK_END);
+    n = ftell(clair);
+    fseek(clair, 0, SEEK_SET);
+
+    char chaine[n-1];
+    char chaine2[n-1];
     char caractere;
 
     while (caractere!=EOF)
     {  
         caractere=fgetc(clair);
         chaine[i]=caractere;
-        //printf("%c",chaine[i]);
+        printf("%c",chaine[i]);
         i=i+1; 
     }
-    for(i=0;i<=118;i++)
+    for(i=0;i<=n-1;i++)
     {
         chaine2[i]=chaine[i];
     }
-    //printf("%s",chiffre_Vigenere(chaine2,cle));
     fputs(chiffre_Vigenere(chaine2,cle),chiffre);
     
     return;    
@@ -156,23 +117,15 @@ void dechiffre_Vigenere_flux_texte(
     char const* cle)
 {
     int i=0;
-    char chaine[118];
-    char chaine2[118];
-    char caractere;
-
-    while (caractere!=EOF)
+    int t=sizeof(cle);
+    char cle2[t];
+    while (cle[i]!='\0')
     {  
-        caractere=fgetc(chiffre);
-        chaine[i]=caractere;
-        //printf("%c",chaine[i]);
+        cle2[i]=97+(26-(cle[i]-97));
         i=i+1; 
     }
-    for(i=0;i<=118;i++)
-    {
-        chaine2[i]=chaine[i];
-    }
-    //printf("%s",chiffre_Vigenere(chaine2,cle));
-    fputs(dechiffre_Vigenere(chaine2,cle),clair);
+    cle2[i]='\0';
+    chiffre_Vigenere_flux_texte(clair,chiffre, cle2);
     
     return;  
 }
